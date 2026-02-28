@@ -1,110 +1,150 @@
-# Stock Analysis Skill 📈
+# Stock WeChat Skill
 
-OpenClaw 技能：股票市场分析和日志记录工具
+微信公众号版股票分析日报生成器
 
-## 功能特性
+## 📦 功能特点
 
-- ✅ **自动获取财经日历** - 从财联社、同花顺抓取重要事件
-- ✅ **热门新闻追踪** - 实时获取市场热点
-- ✅ **事件驱动分析** - 识别板块机会
-- ✅ **技术分析** - MA均线、买入卖出建议
-- ✅ **推荐股票** - 每个板块推荐3只股票（含技术指标）
-- ✅ **持仓追踪** - 个人持仓分析和相关新闻
+- ✅ **公众号优化格式** - 标题吸睛、分段清晰、emoji丰富
+- ✅ **无个人持仓** - 自动去除个人持仓信息，适合公开分享
+- ✅ **简洁内容** - 重点突出，适合移动端阅读
+- ✅ **热点聚焦** - 突出当日重大事件和热门板块
+- ✅ **定时更新** - 支持自动定时更新（可开启/关闭）
+- ✅ **夜间模式** - 00:00-08:00 不自动更新
 
-## 安装
+## 🚀 安装
 
-### 方法1：下载 .skill 文件
-
-1. 下载 `stock-analysis.skill` 文件
-2. 放到 `~/.openclaw/skills/` 目录
-3. 重启 OpenClaw
-
-### 方法2：从源码安装
+### 方法 1：直接下载
 
 ```bash
-git clone https://github.com/你的用户名/stock-analysis.git
-cd stock-analysis
-# 使用 OpenClaw 打包
-python3 /opt/homebrew/lib/node_modules/openclaw/skills/skill-creator/scripts/package_skill.py . ~/.openclaw/skills
+cd ~/.openclaw/skills
+git clone -b stock-wechat https://github.com/LowSh/stock-analysis.git stock-wechat
 ```
 
-## 使用方法
-
-对 OpenClaw 说：
-- "更新股票日志"
-- "分析一下热门板块"
-- "推荐几只股票"
-- "今天的股票新闻也更新一下"
-
-## 日志文件
-
-默认位置：`~/Desktop/claw实验/股票分析日志.md`
-
-## 数据来源
-
-| 来源 | 用途 |
-|------|------|
-| 财联社 (cls.cn) | 财经日历、重要事件 |
-| 同花顺 (10jqka.com.cn) | 热门新闻、点击排行 |
-| akshare | 股票技术数据 |
-
-## 技术分析
-
-使用 `scripts/stock_analyzer.py` 自动获取：
-
-- 现价、涨跌幅
-- MA5/MA10/MA20 均线
-- 支撑位、阻力位
-- 买入区间、止损价、目标价
-- 趋势判断（多头/空头/震荡）
-- 操作建议
-
-### 运行技术分析
+### 方法 2：手动安装
 
 ```bash
-python3 scripts/stock_analyzer.py
+# 下载文件
+cd ~/.openclaw/skills
+mkdir -p stock-wechat
+cd stock-wechat
+
+# 下载 SKILL.md
+curl -O https://raw.githubusercontent.com/LowSh/stock-analysis/stock-wechat/SKILL.md
+
+# 下载脚本
+mkdir -p scripts
+curl -o scripts/schedule_manager.sh https://raw.githubusercontent.com/LowSh/stock-analysis/stock-wechat/scripts/schedule_manager.sh
+chmod +x scripts/schedule_manager.sh
 ```
 
-## 文件结构
+## 📖 使用方法
+
+### 生成公众号版股票分析
+
+**用户说：**
+- "生成公众号版股票分析"
+- "更新公众号内容"
+- "帮我生成适合微信发布的股票日报"
+
+### 定时任务管理
+
+**查看状态：**
+```bash
+~/.openclaw/skills/stock-wechat/scripts/schedule_manager.sh status
+```
+
+**开启定时（每4小时）：**
+```bash
+~/.openclaw/skills/stock-wechat/scripts/schedule_manager.sh enable
+```
+
+**关闭定时：**
+```bash
+~/.openclaw/skills/stock-wechat/scripts/schedule_manager.sh disable
+```
+
+**设置频率：**
+```bash
+# 每2小时
+~/.openclaw/skills/stock-wechat/scripts/schedule_manager.sh set-frequency 2h
+
+# 每天9点
+~/.openclaw/skills/stock-wechat/scripts/schedule_manager.sh set-frequency "0 9 * * *"
+```
+
+## 📂 文件结构
 
 ```
-stock-analysis/
-├── SKILL.md              # 技能工作流程
-├── README.md             # 说明文档
-├── references/
-│   ├── sectors.md        # 热门板块参考
-│   └── stocks.md         # 股票代码参考
-└── scripts/
-    └── stock_analyzer.py # 技术分析脚本
+stock-wechat/
+├── SKILL.md                      # Skill 说明文件
+├── scripts/
+│   └── schedule_manager.sh       # 定时任务管理脚本
+└── README.md                     # 本文件
 ```
 
-## 自定义配置
+## 🔗 相关 Skill
 
-### 修改持仓股票
+- **stock-analysis** (main 分支) - 完整版股票分析（含个人持仓）
+- **stock-wechat** (当前分支) - 公众号版（无个人持仓）
 
-编辑 `references/stocks.md`，在"用户持仓"部分添加你的股票。
+## 📊 与 stock-analysis 的关系
 
-### 修改日志位置
+| Skill | 功能 | 包含个人持仓 | 用途 |
+|-------|------|-------------|------|
+| **stock-analysis** | 完整日志 | ✅ 是 | 个人参考 |
+| **stock-wechat** | 公众号版 | ❌ 否 | 公开分享 |
 
-在 `SKILL.md` 中修改日志文件路径。
+**推荐工作流：**
+1. 先运行 `stock-analysis` 更新完整日志
+2. 再运行 `stock-wechat` 生成公众号版本
 
-## 依赖
+## 🌙 夜间模式
 
-- Python 3.9+
-- akshare (`pip3 install akshare`)
+为了避免打扰，定时任务在 **00:00-08:00** 不自动更新。
 
-## 注意事项
+如果在此期间手动触发，会自动延迟到 08:00 执行。
 
-⚠️ **风险提示**：以上分析基于公开事件和技术指标，不构成投资建议。投资有风险，入市需谨慎。
+## 📅 输出示例
 
-## License
+**标题：**
+```
+📈 股票日报 | 2月28日：中东冲突升级，这些板块要火！
+```
 
-MIT
+**内容结构：**
+1. 🔥 今日大事
+2. 📅 明天重点关注
+3. 🚀 近期热门板块
+4. 💰 买入卖出建议
+5. 📅 重要事件日历
+6. ⚠️ 风险提示
 
-## 作者
+## 🔧 依赖
 
-由 OpenClaw 创建
+**必需：**
+- OpenClaw (内置 `web_fetch` 和 `openclaw cron` 命令)
+
+**可选：**
+- stock-analysis (如需技术分析数据)
+
+## 📝 更新日志
+
+### v1.0.0 (2026-02-28)
+- ✅ 初始版本
+- ✅ 公众号优化格式
+- ✅ 定时任务管理
+- ✅ 夜间模式
+- ✅ 避免个人持仓泄露
+
+## 📄 许可证
+
+MIT License
+
+## 👤 作者
+
+- GitHub: [@LowSh](https://github.com/LowSh)
+- Skill by OpenClaw 🦞
 
 ---
 
-🦞 [OpenClaw](https://openclaw.ai) - Your AI Assistant
+**觉得有用？给个 Star ⭐ 吧！**
