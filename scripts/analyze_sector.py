@@ -146,18 +146,23 @@ class SectorAnalyzer:
         for key, data in sectors.items():
             if key.lower() in self.sector_name.lower() or self.sector_name.lower() in key.lower():
                 return {"简称": key, **data}
+        
+        # 未找到，生成智能建议
+        return self._generate_generic_sector()
 
-        # 未找到，返回通用模板
+    def _generate_generic_sector(self) -> Dict:
+        """为任意板块生成分析框架"""
         return {
             "简称": self.sector_name,
             "全名": self.sector_name,
             "龙头股": [
-                {"股票": "待查询", "代码": "000000", "说明": "请手动查询龙头股"}
+                {"股票": "建议查询", "代码": "000000", "说明": "使用东方财富/同花顺查询板块龙头"}
             ],
-            "ETF": "待查询",
-            "政策支持": "待查询",
-            "市场空间": "待查询",
-            "关键词": [self.sector_name]
+            "ETF": "建议查询 ETF 代码",
+            "政策支持": "建议查询相关政策",
+            "市场空间": "建议查询行业报告",
+            "关键词": [self.sector_name],
+            "is_generic": True  # 标记为通用板块
         }
 
     def analyze(self) -> Dict:
@@ -327,6 +332,12 @@ class SectorAnalyzer:
         print(f"📊 {result['板块名称']} 板块分析报告")
         print(f"{'='*60}\n")
 
+        # 检查是否为通用板块
+        is_generic = self.sector_data.get("is_generic", False)
+
+        if is_generic:
+            print("⚠️  这是一个自定义板块，以下是分析建议：\n")
+
         # 基本信息
         print("📋 基本信息:")
         for k, v in result["基本信息"].items():
@@ -334,8 +345,21 @@ class SectorAnalyzer:
 
         # 龙头股
         print(f"\n🏆 龙头股:")
-        for stock in result["龙头股分析"]:
-            print(f"  {stock['股票']} ({stock['代码']}) - {stock['说明']} {stock['重要性']}")
+        if is_generic:
+            print("  💡 如何查找板块龙头股：")
+            print("  1. 访问东方财富板块行情：https://quote.eastmoney.com/center/")
+            print("  2. 搜索板块名称，查看板块涨幅榜")
+            print("  3. 选择涨幅前3-5只股票作为龙头")
+            print("  4. 关注市值大、成交活跃的股票")
+            print()
+            print("  📊 龙头股特征：")
+            print("  - 市值较大（通常板块内前3）")
+            print("  - 成交量活跃")
+            print("  - 题材纯正，主营业务契合")
+            print("  - 技术走势强于板块")
+        else:
+            for stock in result["龙头股分析"]:
+                print(f"  {stock['股票']} ({stock['代码']}) - {stock['说明']} {stock['重要性']}")
 
         # 板块趋势
         print(f"\n📈 板块趋势:")
@@ -348,6 +372,14 @@ class SectorAnalyzer:
         for driver in result["新闻驱动"]:
             print(f"  [{driver['类型']}] {driver['说明']}")
 
+        if is_generic:
+            print()
+            print("  💡 分析建议：")
+            print("  1. 搜索板块相关新闻（财联社、同花顺）")
+            print("  2. 查看板块指数走势（东方财富）")
+            print("  3. 关注政策文件和行业规划")
+            print("  4. 研究龙头企业财报和业务布局")
+
         # 综合评估
         print(f"\n📊 综合评估:")
         eval_data = result["综合评估"]
@@ -357,16 +389,31 @@ class SectorAnalyzer:
         print(f"  热度评级: {eval_data['热度评级']}")
         print(f"  投资价值: {eval_data['投资价值']}")
 
+        if is_generic:
+            print()
+            print("  💡 评估建议：")
+            print("  - 政策支持：查询是否有国家级/省级政策支持")
+            print("  - 市场空间：参考行业研究报告")
+            print("  - 热度评级：观察板块成交量和涨幅")
+
         # 投资建议
         print(f"\n💡 投资建议:")
         print(f"  {result['投资建议']}")
 
         # 操作策略
         print(f"\n📋 操作策略:")
-        print(f"  1. 优选板块ETF（如 {result['基本信息'].get('ETF代码', '无')}）")
-        print(f"  2. 关注龙头股表现，龙头强则板块强")
-        print(f"  3. 注意催化事件（政策、业绩、行业大会）")
-        print(f"  4. 设置止损，控制风险")
+        if is_generic:
+            print("  1. 先确认板块龙头股（建议3-5只）")
+            print("  2. 分析龙头股的技术走势和基本面")
+            print("  3. 查找板块ETF（如果有）")
+            print("  4. 关注板块催化剂（政策、事件、业绩）")
+            print("  5. 设置止损，控制风险（建议-10%）")
+        else:
+            etf_code = result["基本信息"].get("ETF代码", "无")
+            print(f"  1. 优选板块ETF（如 {etf_code}）")
+            print(f"  2. 关注龙头股表现，龙头强则板块强")
+            print(f"  3. 注意催化事件（政策、业绩、行业大会）")
+            print(f"  4. 设置止损，控制风险")
 
         # 风险提示
         print(f"\n⚠️  风险提示:")
@@ -374,13 +421,23 @@ class SectorAnalyzer:
         print(f"  政策变化可能影响板块表现")
         print(f"  建议分散投资，不要单一板块过度集中")
 
+        if is_generic:
+            print()
+            print("📝 自定义板块分析清单：")
+            print("  □ 确认板块定义和范围")
+            print("  □ 找到板块龙头股（3-5只）")
+            print("  □ 查看板块指数走势")
+            print("  □ 分析政策支持和市场空间")
+            print("  □ 研究新闻催化剂")
+            print("  □ 制定投资策略和止损计划")
+
         print(f"\n{'='*60}\n")
 
 def main():
     """主函数"""
     if len(sys.argv) < 2:
         print("用法: python3 analyze_sector.py <板块名称>")
-        print("\n支持的板块:")
+        print("\n预设板块（有完整数据）：")
         print("  AI/人工智能")
         print("  半导体")
         print("  新能源汽车")
@@ -391,8 +448,11 @@ def main():
         print("  稀土")
         print("  低空经济/飞行汽车")
         print("  一体化压铸")
-        print("\n示例: python3 analyze_sector.py AI")
-        print("      python3 analyze_sector.py 低空经济")
+        print("\n✨ 支持任意板块分析！")
+        print("  示例: python3 analyze_sector.py \"光伏\"")
+        print("       python3 analyze_sector.py \"医美\"")
+        print("       python3 analyze_sector.py \"元宇宙\"")
+        print("\n提示：自定义板块会提供分析框架和查找建议")
         sys.exit(1)
 
     sector_name = sys.argv[1]
