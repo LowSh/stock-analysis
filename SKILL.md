@@ -42,6 +42,42 @@ vim ~/.openclaw/skills/stock-wechat/config.json
 cat ~/.openclaw/skills/stock-wechat/CONFIG.md
 ```
 
+## 🔒 敏感信息保护
+
+**Pre-commit Hook自动检测**
+
+每次提交前自动检测并处理敏感信息：
+- 🔍 自动检测手机号、邮箱、授权码
+- ⚠️ 发现敏感信息时提醒用户
+- 🔧 提供自动替换选项
+- ✅ 确保不会意外提交敏感信息
+
+**详细说明：** `SECURITY.md`
+
+**Hook文件：** `scripts/pre-commit`
+
+**已自动安装到：** `~/Desktop/stock-analysis-github/.git/hooks/pre-commit`
+
+---
+
+## 🔒 敏感信息保护
+
+**Pre-commit Hook自动检测**
+
+每次提交前自动检测并处理敏感信息：
+- 🔍 自动检测手机号、邮箱、授权码
+- ⚠️ 发现敏感信息时提醒用户
+- 🔧 提供自动替换选项
+- ✅ 确保不会意外提交敏感信息
+
+**详细说明：** `SECURITY.md`
+
+**Hook文件：** `scripts/pre-commit`
+
+**已自动安装到：** `~/Desktop/stock-analysis-github/.git/hooks/pre-commit`
+
+---
+
 ## 📸 图片功能
 
 ### 图片类型
