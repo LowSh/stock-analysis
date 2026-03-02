@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-03-02",
+  "push": {
+    "imessage": {
+      "enabled": true,
+      "phoneNumber": "+86 YOUR_PHONE_NUMBER",
+      "autoPush": {
+        "enabled": true,
+        "times": ["09:00", "12:30"],
+        "afterMarketClose": true
+      },
+      "format": "compressed",
+      "maxMessageLength": 4000,
+      "retryOnFailure": true,
+      "retryCount": 3
+    },
+    "email": {
+      "enabled": false,
+      "address": "YOUR_EMAIL@qq.com",
+      "smtp": {
+        "server": "smtp.qq.com",
+        "port": 587,
+        "authCode": ""
+      },
+      "format": "html"
+    }
+  },
+  "content": {
+    "includeHistoricalEvents": true,
+    "eventBackgroundInfo": true,
+    "hotSectorsCount": 5,
+    "stockRecommendationsPerSector": 3,
+    "includeMarketData": true,
+    "includeRiskWarning": true
+  },
+  "schedule": {
+    "morning": {
+      "enabled": true,
+      "time": "09:00",
+      "includePreviousNightNews": true,
+      "previousNightTimeRange": ["18:00", "24:00"]
+    },
+    "noon": {
+      "enabled": true,
+      "time": "12:30"
+    },
+    "custom": []
+  },
+  "display": {
+    "timezone": "Asia/Shanghai",
+    "dateFormat": "YYYY-MM-DD",
+    "timeFormat": "HH:mm",
+    "emoji": true,
+    "colorScheme": {
+      "body": "#333333",
+      "title": "#2c3e50",
+      "highlight": "#e74c3c"
+    }
+  },
+  "advanced": {
+    "enableScreenshot": false,
+    "screenshotProvider": "openclaw",
+    "dataSources": [
+      "10jqka.com.cn",
+      "cls.cn",
+      "eastmoney.com"
+    ],
+    "archiveRetention": {
+      "dailyLogs": 30,
+      "coreContent": 90
+    },
+    "logLevel": "info"
+  }
+}
