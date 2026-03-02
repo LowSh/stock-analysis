@@ -16,12 +16,12 @@
       "retryCount": 3
     },
     "email": {
-      "enabled": false,
+      "enabled": true,
       "address": "YOUR_EMAIL@qq.com",
       "smtp": {
         "server": "smtp.qq.com",
         "port": 587,
-        "authCode": ""
+        "authCode": "YOUR_SMTP_AUTH_CODE"
       },
       "format": "html"
     }
