@@ -7,7 +7,7 @@
       "phoneNumber": "+86 YOUR_PHONE_NUMBER",
       "autoPush": {
         "enabled": true,
-        "times": ["09:00", "12:30"],
+        "times": ["09:00", "12:30", "20:30"],
         "afterMarketClose": true
       },
       "format": "compressed",
@@ -44,6 +44,11 @@
     "noon": {
       "enabled": true,
       "time": "12:30"
+    },
+    "evening": {
+      "enabled": true,
+      "time": "20:30",
+      "description": "晚间总结，包含全天重要事件"
     },
     "custom": []
   },
