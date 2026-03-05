@@ -1,110 +1,123 @@
-# Stock Analysis Skill 📈
+# Stock Analysis Skill - 使用指南
 
-OpenClaw 技能：股票市场分析和日志记录工具
+## 📋 目录结构
 
-## 功能特性
-
-- ✅ **自动获取财经日历** - 从财联社、同花顺抓取重要事件
-- ✅ **热门新闻追踪** - 实时获取市场热点
-- ✅ **事件驱动分析** - 识别板块机会
-- ✅ **技术分析** - MA均线、买入卖出建议
-- ✅ **推荐股票** - 每个板块推荐3只股票（含技术指标）
-- ✅ **持仓追踪** - 个人持仓分析和相关新闻
-
-## 安装
-
-### 方法1：下载 .skill 文件
-
-1. 下载 `stock-analysis.skill` 文件
-2. 放到 `~/.openclaw/skills/` 目录
-3. 重启 OpenClaw
-
-### 方法2：从源码安装
-
-```bash
-git clone https://github.com/你的用户名/stock-analysis.git
-cd stock-analysis
-# 使用 OpenClaw 打包
-python3 /opt/homebrew/lib/node_modules/openclaw/skills/skill-creator/scripts/package_skill.py . ~/.openclaw/skills
+```
+~/.openclaw/skills/stock-analysis/
+├── SKILL.md                    # 主文档（工作流程、数据源、板块分析）
+├── TECHNICAL_DATA.md           # 技术数据获取说明（akshare接口问题）
+├── scripts/
+│   ├── analyze_sector.py       # 板块分析框架
+│   └── update_holdings.py      # 更新持仓数据脚本
+└── README.md                   # 本文档
 ```
 
-## 使用方法
+## 🚀 快速开始
 
-对 OpenClaw 说：
-- "更新股票日志"
-- "分析一下热门板块"
-- "推荐几只股票"
+### 1. 更新股票分析日志
+
+**对我说：**
+- "更新股票分析日志"
 - "今天的股票新闻也更新一下"
 
-## 日志文件
+**我会：**
+1. 抓取最新财经新闻
+2. 分析热门板块
+3. 更新日志文件（`~/Desktop/claw实验/股票分析日志.md`）
 
-默认位置：`~/Desktop/claw实验/股票分析日志.md`
+### 2. 更新持仓数据
 
-## 数据来源
-
-| 来源 | 用途 |
-|------|------|
-| 财联社 (cls.cn) | 财经日历、重要事件 |
-| 同花顺 (10jqka.com.cn) | 热门新闻、点击排行 |
-| akshare | 股票技术数据 |
-
-## 技术分析
-
-使用 `scripts/stock_analyzer.py` 自动获取：
-
-- 现价、涨跌幅
-- MA5/MA10/MA20 均线
-- 支撑位、阻力位
-- 买入区间、止损价、目标价
-- 趋势判断（多头/空头/震荡）
-- 操作建议
-
-### 运行技术分析
-
+**手动运行：**
 ```bash
-python3 scripts/stock_analyzer.py
+python3 ~/.openclaw/skills/stock-analysis/scripts/update_holdings.py
 ```
 
-## 文件结构
+**输出：**
+- 控制台：JSON格式数据
+- 文件：`~/Desktop/claw实验/持仓数据.csv`
 
+### 3. 分析板块
+
+**对我说：**
+- "分析一下AI板块"
+- "帮我看看黄金板块"
+
+**我会：**
+1. 运行板块分析脚本
+2. 抓取实时新闻
+3. 生成完整分析报告
+
+## ⚠️ 已知问题
+
+### akshare接口不稳定
+
+**症状：**
+- 连接中断（`RemoteDisconnected`）
+- 实时行情接口失败
+- 需要多次重试
+
+**解决方案：**
+1. **方案1：** 使用 `update_holdings.py` 脚本（自动重试）
+2. **方案2：** 手动查询（东方财富/同花顺网站）
+3. **方案3：** 浏览器自动化（待实现）
+
+**详细说明：** 查看 `TECHNICAL_DATA.md`
+
+### 不要使用昨天的涨幅数据
+
+**重要提醒：**
+- ✅ 只更新今日的新闻和事件
+- ✅ 实时涨幅需要盘中获取
+- ❌ 不要把昨天的涨幅数据用于今日日志
+
+## 📊 输出文件
+
+| 文件 | 位置 | 说明 |
+|------|------|------|
+| 股票分析日志 | `~/Desktop/claw实验/股票分析日志.md` | 完整日志（含持仓、新闻、板块分析） |
+| 公众号版本 | `~/Desktop/claw实验/股票分析日志_公众号版.md` | 公众号优化版（无个人持仓） |
+| 持仓数据 | `~/Desktop/claw实验/持仓数据.csv` | 持仓股票实时数据 |
+| 核心内容存档 | `~/Desktop/claw实验/公众号核心内容存档.md` | 持续跟踪的重大事件 |
+
+## 🔧 配置
+
+### 持仓股票
+
+**文件：** `scripts/update_holdings.py`
+
+**修改方法：**
+```python
+HOLDINGS = [
+    {"code": "002738", "name": "中矿资源"},
+    {"code": "600821", "name": "金开新能"},
+    {"code": "601975", "name": "招商南油"},
+]
 ```
-stock-analysis/
-├── SKILL.md              # 技能工作流程
-├── README.md             # 说明文档
-├── references/
-│   ├── sectors.md        # 热门板块参考
-│   └── stocks.md         # 股票代码参考
-└── scripts/
-    └── stock_analyzer.py # 技术分析脚本
-```
 
-## 自定义配置
+### 数据源
 
-### 修改持仓股票
+**主要数据源：**
+- 财联社 (cls.cn)
+- 同花顺 (10jqka.com.cn)
+- 东方财富 (eastmoney.com)
+- akshare（技术数据）
 
-编辑 `references/stocks.md`，在"用户持仓"部分添加你的股票。
+## 📱 相关Skill
 
-### 修改日志位置
+- **stock-analysis** - 股票分析日志（完整版，含个人持仓）
+- **stock-wechat** - 公众号版本（无个人持仓，自动推送）
 
-在 `SKILL.md` 中修改日志文件路径。
+## 📞 技术支持
 
-## 依赖
+**文档：**
+- 主文档：`SKILL.md`
+- 技术数据：`TECHNICAL_DATA.md`
+- 本文档：`README.md`
 
-- Python 3.9+
-- akshare (`pip3 install akshare`)
-
-## 注意事项
-
-⚠️ **风险提示**：以上分析基于公开事件和技术指标，不构成投资建议。投资有风险，入市需谨慎。
-
-## License
-
-MIT
-
-## 作者
-
-由 OpenClaw 创建
+**日志文件：**
+- `~/Desktop/claw实验/股票分析日志.md`
+- `~/.openclaw/workspace/memory/2026-03-03.md`
 
 ---
 
-🦞 [OpenClaw](https://openclaw.ai) - Your AI Assistant
+_最后更新：2026-03-03 12:50_
