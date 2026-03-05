@@ -395,7 +395,12 @@ _创建时间：YYYY-MM-DD_
 
 ## 待分析
 
-- [ ] 待办事项
+- [ ] 监控两会政策风向（3/4-5）
+- [ ] 关注中东局势进一步发展
+- [ ] 跟踪AI板块补涨机会（高盛看好）
+- [ ] ⚠️ akshare接口连接不稳定，持仓股票技术数据需要手动更新
+  - 脚本位置：`~/.openclaw/skills/stock-analysis/scripts/update_holdings.py`
+  - 文档说明：`TECHNICAL_DATA.md`
 
 ---
 
