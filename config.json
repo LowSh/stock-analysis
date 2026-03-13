@@ -39,7 +39,17 @@
       "enabled": true,
       "time": "09:00",
       "includePreviousNightNews": true,
-      "previousNightTimeRange": ["18:00", "24:00"]
+      "previousNightTimeRange": ["18:00", "24:00"],
+      "dateSeparation": {
+        "enabled": true,
+        "rules": [
+          "清晰标注昨日收盘数据日期",
+          "清晰标注前一晚新闻时间范围",
+          "清晰标注今日早盘新闻",
+          "添加'数据更新中'提醒",
+          "区分'昨日表现'和'今日关注'"
+        ]
+      }
     },
     "noon": {
       "enabled": true,

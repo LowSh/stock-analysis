@@ -485,7 +485,7 @@ browser action=screenshot selector="#kline_main" fullPage=false
 - ⏸️ ~~自动截图~~（已暂时关闭）
 
 **推送配置：**
-- 📧 邮箱推送：[配置的邮箱]（已启用）
+- 📧 邮箱推送：YOUR_EMAIL@qq.com（已启用）
 - 📱 iMessage推送：已关闭
 
 **重要提醒：**

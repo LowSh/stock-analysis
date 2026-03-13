@@ -46,6 +46,11 @@ fi
 
 # 检查每个文件
 for FILE in $STAGED_FILES; do
+    # 跳过SECURITY.md（文档文件，包含示例）
+    if [[ "$FILE" == "SECURITY.md" ]]; then
+        continue
+    fi
+
     # 只检查文本文件
     if [[ "$FILE" == *.json ]] || [[ "$FILE" == *.md ]] || [[ "$FILE" == *.txt ]]; then
         if [ -f "$FILE" ]; then
